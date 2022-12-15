@@ -5,15 +5,12 @@ import { IconUser } from '@supabase/ui'
 import { useRouter } from 'next/router'
 import Cart from './Cart'
 
-
 export default function Header({}) {
   const router = useRouter()
   const session = useSession()
   const supabase = useSupabaseClient()
 
-
   return (
-
     <div style={{ padding: '10px' }}>
       <div className="col-12">
         <div className="inline-block">
@@ -22,20 +19,22 @@ export default function Header({}) {
             <h1 style={{ cursor: 'pointer' }}>Mi Tienda</h1>
           </span>
           </div>
+      <div className="right item-count">
+          <Cart />
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          &nbsp;
        {!session ? (
-          <div className="right item-count">
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
+           <>
             <IconLogIn
               style={{ cursor: 'pointer' }}
               onClick={ () => router.push("/login") }
             />
-          </div>
+          </>
         ) : (
-          <div className="right item-count">
+          <>
             <IconUser
               style={{ cursor: 'pointer' }}
               onClick={ () => router.push("/login") }
@@ -44,16 +43,11 @@ export default function Header({}) {
             style={{ cursor: 'pointer' }}
             onClick={() => supabase.auth.signOut()}
             />
-            &nbsp;
-            &nbsp;
-
-            <Cart />
-
-          </div>
+          </>
         )}
       </div>
       </div>
+      </div>
     </div>
-
   )
 }

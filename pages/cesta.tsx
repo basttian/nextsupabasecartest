@@ -91,12 +91,7 @@ const Cesta: NextPage = () => {
     </tfoot>
     </table>
     <br/>
-    {session ? (
-      <Button block onClick={()=>alert("No tienes fondos suficientes!!..  \n:p ")}>Pagar</Button>
-    ) : (
-      <>
-      </>
-    )}
+      <Button block onClick={()=>alert("No tienes fondos suficientes!!..  \n:p\nLike for the models.. ")}>Pagar</Button>
     <br/><br/><br/>
     </div>
 

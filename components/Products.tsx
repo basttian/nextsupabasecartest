@@ -33,9 +33,6 @@ export default function Products() {
           <br/>
           ${value.price}
           <br/>
-          {!session ? (
-             <></>
-            ) : (
           <button
             className="button block"
             onClick={() => setCesta(value.id) }
@@ -46,7 +43,6 @@ export default function Products() {
               { value.quantity }
             </Badge>
           </button>
-          )}
         </div>
         </div>
       )}

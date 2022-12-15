@@ -17,15 +17,16 @@ const Home: NextPage = () => {
         <div className="row">
           <div className="col-6">
             <h1 className="header">Supabase Auth + Storage + Shopping cart</h1>
-            <p className="">
+          </div>
+          <div className="col-6">
+            <br/>
+            <p>
             Experimente nuestra autenticación y almacenamiento a través de un ejemplo simple de administración de perfiles. Crear un perfil de usuario y cargue una imagen de avatar. Agregue productos al carrito Rápido, sencillo.
             </p>
           </div>
-
         </div>
       ) : (
         <>
-
         </>
       )}
       <Products />
