@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useUser, useSupabaseClient, Session } from '@supabase/auth-helpers-react'
 import Avatar from './Avatar'
 
+
 import { Database } from '../utils/database.types'
 type Profiles = Database['public']['Tables']['profiles']['Row']
 
@@ -78,7 +79,8 @@ export default function Account({ session }: { session: Session }) {
   }
 
   return (
-    <div className="form-widget">
+    <>
+    <div>
       <Avatar
         uid={user!.id}
         url={avatar_url}
@@ -129,5 +131,6 @@ export default function Account({ session }: { session: Session }) {
         </button>
       </div>
     </div>
+    </>
   )
 }

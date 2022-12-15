@@ -3,6 +3,7 @@ import { Badge } from "@supabase/ui";
 import Link from 'next/link'
 import { useGlobalContext } from './MyCartContext'
 
+
 export default function Cart(){
   const { cesta } = useGlobalContext()
   return (

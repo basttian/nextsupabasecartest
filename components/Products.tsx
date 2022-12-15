@@ -1,27 +1,19 @@
 import { useSession } from '@supabase/auth-helpers-react'
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react'
 import { useGlobalContext } from './MyCartContext'
+import { Badge } from '@supabase/ui';
 
 export default function Products() {
 
-  const [isLoading, setLoading] = useState(false)
-  const [productos, setProductos] = useState<Array<any>>([{}])
+  const { setCesta, xProducto, isLoading, qti } = useGlobalContext()
 
-  const { shoppingCart, setCesta } = useGlobalContext()
-
-  useEffect(() => {
-    setLoading(true)
-      fetch('./api/productall')
-        .then((res) => res.json())
-        .then((data) => {
-          setProductos(data)
-          setLoading(false)
-      });
-  },[])
+  /*useEffect(()=>{
+    console.log(qti)
+  },[xProducto])*/
 
   const session = useSession()
   if (isLoading) return <p>Loading...</p>
-  if (!productos) return <p>No product found...</p>
+  if (!xProducto) return <p>No product found...</p>
   return (
     <>
       <div className="row">
@@ -30,7 +22,7 @@ export default function Products() {
           </div>
       </div>
       <div className="row">
-      {productos.map((value,index) =>
+      {xProducto.map((value,index) =>
         <div key={index} className="col-4">
         <div className="card">
           <img className="product" src={value.img} />
@@ -39,19 +31,22 @@ export default function Products() {
           <br/>
           {value.name}
           <br/>
-          {value.price}
+          ${value.price}
           <br/>
           {!session ? (
              <></>
             ) : (
           <button
-            key={value.id}
             className="button block"
-            onClick={ () => setCesta(value.id) }
-
-            >{ 'Agregar a la cesta' }</button>
+            onClick={() => setCesta(value.id) }
+            >{ 'Añadir a la cesta' }
+            &nbsp;
+            <Badge size="small" color="pink">
+              {/*qti[index] pintamos toda la casa... wtf*/}
+              { value.quantity }
+            </Badge>
+          </button>
           )}
-
         </div>
         </div>
       )}

@@ -6,6 +6,7 @@ import { IconTrash2 } from '@supabase/ui'
 import { Button } from '@supabase/ui'
 import { useGlobalContext } from '../components/MyCartContext'
 
+
 const Cesta: NextPage = () => {
 
   const session:any = useSession()
@@ -18,7 +19,7 @@ const Cesta: NextPage = () => {
     const existe:any = shoppingCart.find(p => p.id === trigger[0])
     if(existe){
       existe.quantity = 0
-      existe.quantity += trigger[1]
+      existe.quantity += isNaN(trigger[1])?1:trigger[1]
       existe.totalproductprice = existe.price * existe.quantity
     }
     setFinalPrice(shoppingCart.map((el,i) => el.totalproductprice))
@@ -57,7 +58,6 @@ const Cesta: NextPage = () => {
     <tbody>
       {shoppingCart.map((element, index) => {
         return(
-        <>
           <tr key={index}>
             <td className="td-table-l">{element.name}</td>
             <td className="td-table-c">
@@ -77,23 +77,22 @@ const Cesta: NextPage = () => {
             <td className="td-table-c" >
               <IconTrash2
                 style={{ cursor: 'pointer' }}
-                onClick={ () => delCesta(index) }
+                onClick={ () => delCesta(index, element.id) }
               />
             </td>
           </tr>
-        </>
       )})
       }
     </tbody>
     <tfoot>
       <tr>
-        <td colSpan={4}><h2 className="right p-10p"> ${sumTotal.toFixed(2)} </h2></td>
+        <td colSpan={4}><h2 className="right p-10p"> ${ typeof sumTotal.toFixed(2) === "string" && !Number.isNaN( sumTotal ) ? sumTotal.toFixed(2) : "-" } </h2></td>
       </tr>
     </tfoot>
     </table>
     <br/>
     {session ? (
-      <Button block onClick={()=>alert("No tienes fondos suficientes, ratón!!..  \n:p ")}>Pagar</Button>
+      <Button block onClick={()=>alert("No tienes fondos suficientes!!..  \n:p ")}>Pagar</Button>
     ) : (
       <>
       </>
