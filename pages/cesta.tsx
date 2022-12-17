@@ -1,5 +1,5 @@
+// @ts-nocheck
 import type { NextPage } from 'next'
-import { useSession } from '@supabase/auth-helpers-react'
 import { useState, useEffect } from 'react'
 import Layout from "../components/Layout"
 import { IconTrash2 } from '@supabase/ui'
@@ -8,7 +8,6 @@ import { useGlobalContext } from '../components/MyCartContext'
 
 const Cesta: NextPage = () => {
 
-  const session:any = useSession()
   const { shoppingCart, delCesta } = useGlobalContext()
 
   const [trigger, setTrigger] = useState([])
@@ -58,7 +57,8 @@ const Cesta: NextPage = () => {
       return;
     }
 
-    const mp = new MercadoPago( process.env.MP_PUBLIC_KEY , {
+    let mp: any = {}
+    mp = new MercadoPago( process.env.MP_PUBLIC_KEY , {
       locale: 'es-AR'
     });
 
