@@ -6,7 +6,6 @@ import { IconTrash2 } from '@supabase/ui'
 import { Button } from '@supabase/ui'
 import { useGlobalContext } from '../components/MyCartContext'
 
-
 const Cesta: NextPage = () => {
 
   const session:any = useSession()
@@ -34,6 +33,69 @@ const Cesta: NextPage = () => {
   /*Precio total*/
   const priceTot:any = shoppingCart.map((s) => s.totalproductprice);
   const sumTotal:number = priceTot.reduce((a:number, b:number) => a + b,0);
+
+
+  const initializeMercadoPagopay = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://sdk.mercadopago.com/js/v2";
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
+
+
+  const makePayment = async () => {
+    const res = await initializeMercadoPagopay();
+
+    if (!res) {
+      alert("Mercado Pago SDK, fallo al cargar");
+      return;
+    }
+
+    const mp = new MercadoPago( process.env.MP_PUBLIC_KEY , {
+      locale: 'es-AR'
+    });
+
+    let shopProduct = shoppingCart.map(el=>(
+      {
+        id:el.id,
+        title: el.name,
+        unit_price: el.price,
+        quantity: el.quantity,
+      }
+    ))
+
+    await fetch("/api/mercadopago", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(shopProduct),
+    }).then(function (response) {
+      return response.json();
+    }).then(function (preferenceid) {
+      console.log(preferenceid.id)
+      mp.checkout({
+        preference: {
+          id: preferenceid.id,
+        },
+        theme: {
+          elementsColor: '#3FCF8E',
+          headerColor: '#3FCF8E',
+        },
+        autoOpen: true,
+      });
+    })
+    .catch(function () {
+      alert("Error inesperado, aguarde unos momentos, si el error persiste que Dios lo ayude...\nAtte me-li mporta un..");
+    });
+  }
 
   return (
     <>
@@ -91,7 +153,9 @@ const Cesta: NextPage = () => {
     </tfoot>
     </table>
     <br/>
-      <Button block onClick={()=>alert("No tienes fondos suficientes!!..  \n:p\nLike for the models.. ")}>Pagar</Button>
+      <Button block onClick={()=>
+        makePayment()
+      }>Pagar</Button>
     <br/><br/><br/>
     </div>
 

@@ -4,13 +4,11 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import Layout from "../components/Layout"
 import Products from '../components/Products'
 
-
 const Home: NextPage = () => {
   const session = useSession()
   const supabase = useSupabaseClient()
   return (
     <>
-
     <Layout >
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
       {!session ? (

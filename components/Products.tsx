@@ -2,6 +2,7 @@ import { useSession } from '@supabase/auth-helpers-react'
 import { useState, useEffect } from 'react'
 import { useGlobalContext } from './MyCartContext'
 import { Badge } from '@supabase/ui';
+import Head from 'next/head'
 
 export default function Products() {
 
@@ -16,9 +17,13 @@ export default function Products() {
   if (!xProducto) return <p>No product found...</p>
   return (
     <>
+    <Head>
+        <title>Productos</title>
+    </Head>
       <div className="row">
           <div className="col-12">
           <h1>Productos</h1>
+          {process.env.PUBLIC_NAME_BRAND}
           </div>
       </div>
       <div className="row">
