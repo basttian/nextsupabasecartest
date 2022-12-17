@@ -59,7 +59,7 @@ const Cesta: NextPage = () => {
     }
 
     let mp: any = {}
-    mp = new MercadoPago( "TEST-a361daa0-9db7-4223-9658-d9b30ed402a0" , {
+    mp = new MercadoPago( process.env.MP_PUBLIC_KEY , {
       locale: 'es-AR'
     });
 
@@ -94,7 +94,7 @@ const Cesta: NextPage = () => {
       });
     })
     .catch(function () {
-      alert("Error inesperado, aguarde unos momentos, si el error persiste que Dios lo ayude...\nAtte me-li mporta..");
+      alert("Error inesperado, aguarde unos momentos, si el error persiste que Dios lo ayude...");
     });
   }
 
