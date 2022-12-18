@@ -1,12 +1,9 @@
 // @ts-nocheck
-
 import type { NextApiRequest, NextApiResponse } from "next";
-import { NextRouter } from 'next/router'
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
-  router: NextRouter
 ) {
 
   if (req.method === "POST") {
@@ -16,7 +13,7 @@ export default async function handler(
     // Agrega credenciales
     mercadopago.configure({
       sandbox: true,
-      access_token: process.env.MP_ACCESS_TOKEN,
+      access_token: process.env.NEXT_PUBLIC_MP_ACCESS_TOKEN,
     });
 
     const orderData = req.body.map(el => el)
@@ -43,9 +40,9 @@ export default async function handler(
         }
       },*/
       back_urls: {
-        "success": `${process.env.NEXT_URL}/feedback`,
-        "failure": `${process.env.NEXT_URL}/feedback`,
-        "pending": `${process.env.NEXT_URL}/feedback`
+        "success": `${process.env.NEXT_PUBLIC_URL_SITE}/feedback`,
+        "failure": `${process.env.NEXT_PUBLIC_URL_SITE}/feedback`,
+        "pending": `${process.env.NEXT_PUBLIC_URL_SITE}/feedback`
       },
       auto_return: "approved",
     };
@@ -65,17 +62,7 @@ export default async function handler(
       })
     }
 
-    router.push({
-      pathname: '/feedback/[pid]',
-      query: {
-        Payment: req.query.payment_id,
-        Status: req.query.status,
-        MerchantOrder: req.query.merchant_order_id
-      },
-    })
-
-
   }else {
-    // Handle any other HTTP method
+    // Handle other HTTP method
   }
 }

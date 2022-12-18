@@ -59,7 +59,7 @@ const Cesta: NextPage = () => {
     }
 
     let mp: any = {}
-    mp = new MercadoPago( process.env.MP_PUBLIC_KEY , {
+    mp = new MercadoPago( process.env.NEXT_PUBLIC_MP_PUBLIC_KEY , {
       locale: 'es-AR'
     });
 
