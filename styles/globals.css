@@ -513,3 +513,9 @@ img.product {
 table thead tr th{
   border-bottom: 1px solid #65D9A5;
 }
+
+.btn-pay{
+  color: #000000;
+  font-weight:700;
+  font-style:normal;
+}
