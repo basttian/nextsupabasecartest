@@ -14,6 +14,8 @@ const Cesta: NextPage = () => {
   const [trigger, setTrigger] = useState([])
   const [precioFinalProducto, setFinalPrice] = useState([])
 
+  const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
     const existe:any = shoppingCart.find(p => p.id === trigger[0])
     if(existe){
@@ -51,6 +53,7 @@ const Cesta: NextPage = () => {
 
 
   const makePayment = async () => {
+    setIsLoading(true)
     const res = await initializeMercadoPagopay();
 
     if (!res) {
@@ -81,7 +84,7 @@ const Cesta: NextPage = () => {
     }).then(function (response) {
       return response.json();
     }).then(function (preferenceid) {
-      console.log(preferenceid.id)
+      setIsLoading(false)
       mp.checkout({
         preference: {
           id: preferenceid.id,
@@ -94,7 +97,7 @@ const Cesta: NextPage = () => {
       });
     })
     .catch(function () {
-      alert("Error inesperado, aguarde unos momentos, si el error persiste que Dios lo ayude...");
+      alert("Error inesperado...");
     });
   }
 
@@ -154,9 +157,13 @@ const Cesta: NextPage = () => {
     </tfoot>
     </table>
     <br/>
-      <Button block onClick={()=>
+      <Button
+        size="xlarge" 
+        block 
+        loading={isLoading}
+        onClick={()=>
         makePayment()
-      }>Pagar</Button>
+      }><span className="btn-pay">{isLoading ? 'Cargando...' : 'Pagar'}</span></Button>
     <br/><br/><br/>
     </div>
 
